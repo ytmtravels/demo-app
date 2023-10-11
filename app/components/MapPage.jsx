@@ -115,36 +115,36 @@ const MapPage = () => {
   //   getMemories();
   // }, [session?.user.id]);
   // search memory
-  useEffect(() => {
-    const delayDebouncefn = setTimeout(() => {
-      if (
-        session?.user?.id !== null &&
-        session?.user?.id !== undefined &&
-        sourceQuery !== ""
-      ) {
-        getSearchMemory();
-      } else {
-        getMemories();
-      }
-    }, 1000);
-    return () => clearTimeout(delayDebouncefn);
-  }, [sourceQuery, session?.user?.id]);
+  // useEffect(() => {
+  //   const delayDebouncefn = setTimeout(() => {
+  //     if (
+  //       session?.user?.id !== null &&
+  //       session?.user?.id !== undefined &&
+  //       sourceQuery !== ""
+  //     ) {
+  //       getSearchMemory();
+  //     } else {
+  //       getMemories();
+  //     }
+  //   }, 1000);
+  //   return () => clearTimeout(delayDebouncefn);
+  // }, [sourceQuery, session?.user?.id]);
 
-  const getSearchMemory = async () => {
-    try {
-      const res = await fetch(
-        `api/search-memory?userId=${session?.user.id}&q=${sourceQuery}`,
-        {
-          cache: "no-store",
-        },
-      );
-      const searchResult = await res.json();
-      console.log("search result: ", searchResult);
-      setAllMemories(searchResult.memories);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getSearchMemory = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `api/search-memory?userId=${session?.user.id}&q=${sourceQuery}`,
+  //       {
+  //         cache: "no-store",
+  //       },
+  //     );
+  //     const searchResult = await res.json();
+  //     console.log("search result: ", searchResult);
+  //     setAllMemories(searchResult.memories);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   // const handleSearch = (e) => {
   //   setsourceQuery(e.target.value);
   //   getSearchMemory();
@@ -177,7 +177,6 @@ const MapPage = () => {
               />
             </div>
             <button
-              onClick={getSearchMemory}
               className="flex items-center  justify-center rounded-[10px] bg-white p-3 shadow-searchBox"
             >
               <Image src={"/assets/info.svg"} width={22} height={22} />
