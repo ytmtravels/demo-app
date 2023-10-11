@@ -111,23 +111,23 @@ const MapPage = () => {
       console.log("Error loading topics: ", error);
     }
   };
-  // useEffect(() => {
-  //   getMemories();
-  // }, [session?.user.id]);
-  // search memory
   useEffect(() => {
-    const delayDebouncefn = setTimeout(() => {
-      if (
-        session?.user?.id !== null &&
-        session?.user?.id !== undefined
-      ) {
-        getSearchMemory();
-      } else {
-        getMemories();
-      }
-    }, 1000);
-    return () => clearTimeout(delayDebouncefn);
-  }, [session?.user?.id]);
+    getMemories();
+  }, [session?.user.id]);
+  // search memory
+  // useEffect(() => {
+  //   const delayDebouncefn = setTimeout(() => {
+  //     if (
+  //       session?.user?.id !== null &&
+  //       session?.user?.id !== undefined
+  //     ) {
+  //       getSearchMemory();
+  //     } else {
+  //       getMemories();
+  //     }
+  //   }, 1000);
+  //   return () => clearTimeout(delayDebouncefn);
+  // }, [session?.user?.id]);
 
   // const getSearchMemory = async () => {
   //   try {
