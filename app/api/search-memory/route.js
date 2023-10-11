@@ -5,9 +5,9 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   await connectMongoDB();
   try {
-    const { searchParams } = new URL(req.url);
-    const userID = searchParams.get("userId");
-    const query = searchParams.get("q");
+    // const { searchParams } = new URL(req.url);
+    // const userID = "651d60cbf2d0d68406632c65";
+    const query = "dhaka";
     console.log("memory by user id: ", userID);
     console.log("memory by user query: ", query);
     const memories = await myMemories.find({
