@@ -1,20 +1,16 @@
+"use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { signOut, useSession } from "next-auth/react";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
-import Map from "./Map";
-import TravelCard from "./TravelCard";
 import { usePathname, useRouter } from "next/navigation";
-import L from "leaflet";
 import MarkerShadow from "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet.js";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import MapPopup from "./MapPopup";
 import Sheet from "react-modal-sheet";
-import { data } from "autoprefixer";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -37,6 +33,14 @@ const MapPage = () => {
   if (session?.user) {
     console.log("map session:", session?.user?.id);
   }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      import("leaflet").then((L) => {
+        // The following code uses the L (Leaflet) object
+        // It should go here
+      });
+    }
+  }, []); // Empty dependency array to run this effect only once
   const handleOpenForm = () => {
     setIsFormOpen(true);
   };
