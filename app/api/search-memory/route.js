@@ -1,12 +1,11 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import myMemories from "@/models/myMemories";
 import { NextResponse } from "next/server";
-import { useSearchParams } from "url";
 
 export async function GET(req) {
   await connectMongoDB();
   try {
-    const searchParams = new URL(req.url).searchParams;
+    const { searchParams } = new URL(req.url);
     const userID = searchParams.get("userId");
     const query = searchParams.get("q");
     console.log("memory by user id: ", userID);
