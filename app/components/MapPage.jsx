@@ -119,7 +119,7 @@ const MapPage = () => {
       router.push(`/dashboard`);
     } else {
       router.push(
-        `/dashboard?userId=${session?.user?.id}&search=${sourceQuery}`,
+        `/dashboard?userId=${session?.user?.id}&q=${sourceQuery}`,
       );
     }
   }, [sourceQuery, router]);
