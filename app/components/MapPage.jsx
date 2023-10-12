@@ -30,6 +30,8 @@ const MapPage = () => {
   const [sourceQuery, setsourceQuery] = useState("");
   const [QueryChange, setQueryChange] = useState(false);
   const [showProfile, setshowProfile] = useState(false);
+  // Add
+export const dynamic = 'force-dynamic'
   if (session?.user) {
     console.log("map session:", session?.user?.id);
   }
