@@ -111,39 +111,49 @@ const MapPage = () => {
       console.log("Error loading topics: ", error);
     }
   };
-  useEffect(() => {
-    getMemories();
-  }, [session?.user.id]);
-  // search memory
   // useEffect(() => {
-  //   const delayDebouncefn = setTimeout(() => {
-  //     if (
-  //       session?.user?.id !== null &&
-  //       session?.user?.id !== undefined
-  //     ) {
-  //       getSearchMemory();
-  //     } else {
-  //       getMemories();
-  //     }
-  //   }, 1000);
-  //   return () => clearTimeout(delayDebouncefn);
-  // }, [session?.user?.id]);
+  //   getMemories();
+  // }, [session?.user.id]);
+  useEffect(() => {
+    if (!sourceQuery) {
+      router.push(`/dashboard`);
+    } else {
+      router.push(
+        `/dashboard?userId=${session?.user?.id}&search=${sourceQuery}`,
+      );
+    }
+  }, [sourceQuery, router]);
+  // search memory
+   const getSearchMemory = async () => {
+    try {
+      const res = await fetch(
+        `api/search-memory?userId=${session?.user.id}&q=${sourceQuery}`,
+        {
+          cache: "no-store",
+        },
+      );
+      const searchResult = await res.json();
+      console.log("search result: ", searchResult);
+      setAllMemories(searchResult.memories);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    const delayDebouncefn = setTimeout(() => {
+      if (
+        session?.user?.id !== null &&
+        session?.user?.id !== undefined
+      ) {
+        getSearchMemory();
+      } else {
+        getMemories();
+      }
+    }, 1000);
+    return () => clearTimeout(delayDebouncefn);
+  }, [session?.user?.id]);
 
-  // const getSearchMemory = async () => {
-  //   try {
-  //     const res = await fetch(
-  //       `api/search-memory?userId=${session?.user.id}&q=${sourceQuery}`,
-  //       {
-  //         cache: "no-store",
-  //       },
-  //     );
-  //     const searchResult = await res.json();
-  //     console.log("search result: ", searchResult);
-  //     setAllMemories(searchResult.memories);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+ 
   // const handleSearch = (e) => {
   //   setsourceQuery(e.target.value);
   //   getSearchMemory();
