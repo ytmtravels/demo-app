@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -6,10 +6,10 @@ import { signOut, useSession } from "next-auth/react";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
 import { usePathname, useRouter } from "next/navigation";
-// import MarkerShadow from "leaflet/dist/images/marker-shadow.png";
-// import "leaflet/dist/leaflet.css";
-// import "leaflet/dist/leaflet.js";
-// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import MarkerShadow from "leaflet/dist/images/marker-shadow.png";
+import "leaflet/dist/leaflet.css";
+import "leaflet/dist/leaflet.js";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Sheet from "react-modal-sheet";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -25,22 +25,14 @@ const MapPage = () => {
   const pathName = usePathname();
   const [latitude, setLatitude] = useState("23.73283");
   const [longitude, setLongitude] = useState("90.398619");
-  const { data: session } = useSession();
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [sourceQuery, setsourceQuery] = useState("");
-  const [QueryChange, setQueryChange] = useState(false);
   const [showProfile, setshowProfile] = useState(false);
+  const { data: session } = useSession();
+
   if (session?.user) {
     console.log("map session:", session?.user?.id);
   }
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     import("leaflet").then((L) => {
-  //       // The following code uses the L (Leaflet) object
-  //       // It should go here
-  //     });
-  //   }
-  // }, []); // Empty dependency array to run this effect only once
   const handleOpenForm = () => {
     setIsFormOpen(true);
   };
@@ -114,24 +106,16 @@ const MapPage = () => {
   // useEffect(() => {
   //   getMemories();
   // }, [session?.user.id]);
-  useEffect(() => {
-    if (!sourceQuery) {
-      router.push(`/dashboard`);
-    } else {
-      router.push(
-        `/dashboard?userId=${session?.user?.id}&q=${sourceQuery}`,
-      );
-    }
-  }, [sourceQuery, router]);
   // search memory
-   const getSearchMemory = async () => {
+  const getSearchMemory = async () => {
     try {
-      const res = await fetch(
-        `api/search-memory?userId=${session?.user.id}&q=${sourceQuery}`,
-        {
-          cache: "no-store",
+      const res = await fetch(`api/search-memory`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ userId: session?.user.id, search: sourceQuery }),
+      });
       const searchResult = await res.json();
       console.log("search result: ", searchResult);
       setAllMemories(searchResult.memories);
@@ -143,7 +127,8 @@ const MapPage = () => {
     const delayDebouncefn = setTimeout(() => {
       if (
         session?.user?.id !== null &&
-        session?.user?.id !== undefined
+        session?.user?.id !== undefined &&
+        sourceQuery !== ""
       ) {
         getSearchMemory();
       } else {
@@ -151,9 +136,8 @@ const MapPage = () => {
       }
     }, 1000);
     return () => clearTimeout(delayDebouncefn);
-  }, [session?.user?.id]);
+  }, [sourceQuery, session?.user?.id]);
 
- 
   // const handleSearch = (e) => {
   //   setsourceQuery(e.target.value);
   //   getSearchMemory();
@@ -186,6 +170,7 @@ const MapPage = () => {
               />
             </div>
             <button
+              onClick={getSearchMemory}
               className="flex items-center  justify-center rounded-[10px] bg-white p-3 shadow-searchBox"
             >
               <Image src={"/assets/info.svg"} width={22} height={22} />
@@ -221,7 +206,7 @@ const MapPage = () => {
 
         <div className="absolute left-0 top-0 z-[48] h-full min-h-screen w-full">
           {/* {<Map />} */}
-{/*           <MapContainer
+          <MapContainer
             style={{ width: "100%", height: "100%", zIndex: "49" }}
             center={[latitude, longitude]}
             zoom={1.5}
@@ -327,7 +312,7 @@ const MapPage = () => {
                 </Popup>
               </Marker>
             ))}
-          </MapContainer> */}
+          </MapContainer>
         </div>
         <div className="fixed bottom-0 left-1/2 z-[65] w-full -translate-x-1/2 transform">
           <div className="flex w-full flex-col items-center gap-2">
@@ -1286,7 +1271,7 @@ const MapPage = () => {
           </div>
           {/* map */}
           <div className="absolute left-0 top-0 h-full w-full overflow-hidden">
-{/*             <MapContainer
+            <MapContainer
               style={{ width: "100%", height: "100%", zIndex: "49" }}
               center={[latitude, longitude]}
               zoom={1.5}
@@ -1392,7 +1377,7 @@ const MapPage = () => {
                   </Popup>
                 </Marker>
               ))}
-            </MapContainer> */}
+            </MapContainer>
           </div>
         </div>
       </div>
