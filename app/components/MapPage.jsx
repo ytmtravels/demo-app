@@ -206,7 +206,7 @@ const MapPage = () => {
 
         <div className="absolute left-0 top-0 z-[48] h-full min-h-screen w-full">
           {/* {<Map />} */}
-          <MapContainer
+{/*           <MapContainer
             style={{ width: "100%", height: "100%", zIndex: "49" }}
             center={[latitude, longitude]}
             zoom={1.5}
@@ -312,7 +312,7 @@ const MapPage = () => {
                 </Popup>
               </Marker>
             ))}
-          </MapContainer>
+          </MapContainer> */}
         </div>
         <div className="fixed bottom-0 left-1/2 z-[65] w-full -translate-x-1/2 transform">
           <div className="flex w-full flex-col items-center gap-2">
@@ -1271,7 +1271,7 @@ const MapPage = () => {
           </div>
           {/* map */}
           <div className="absolute left-0 top-0 h-full w-full overflow-hidden">
-            <MapContainer
+{/*             <MapContainer
               style={{ width: "100%", height: "100%", zIndex: "49" }}
               center={[latitude, longitude]}
               zoom={1.5}
@@ -1377,7 +1377,7 @@ const MapPage = () => {
                   </Popup>
                 </Marker>
               ))}
-            </MapContainer>
+            </MapContainer> */}
           </div>
         </div>
       </div>
